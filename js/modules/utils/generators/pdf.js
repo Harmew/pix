@@ -63,11 +63,13 @@ export default class Pdf {
       data.map(async (pagador, i, arr) => {
         if (!pagador.pix) throw new Error("O código Pix não foi gerado");
         const qr = await QR.gerar_qrcode(pagador.pix);
+        qr.classList.add("qrcode", "img-fluid", "rounded-start");
+        qr.alt = pagador.referencia;
 
         return `
           <div class="card ${i === 0 ? "" : "mt-4"}">
             <div class="d-flex justify-content-between">
-              <img class="qrcode img-fluid rounded-start" src="${qr}" alt="${pagador.referencia}" />
+              ${qr.outerHTML}
             </div>
             <div class="card-body overflow-hidden">
               <ul class="list-group text-start h-100 text-center">

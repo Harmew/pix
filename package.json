@@ -23,10 +23,11 @@
     "@babel/preset-env": "^7.26.9",
     "babel-loader": "^10.0.0",
     "husky": "^9.1.7",
-    "qrcode": "^1.5.4",
+    "qrcode-with-logos": "^1.1.1",
     "steplix-emv-qrcps": "^0.0.8",
     "terser-webpack-plugin": "^5.3.14",
     "webpack": "^5.98.0",
     "webpack-cli": "^6.0.1"
-  }
+  },
+  "dependencies": {}
 }
