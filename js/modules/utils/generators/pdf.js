@@ -9,6 +9,9 @@ import QR from "./qrcode";
 // Constants
 import SVGs from "../../constants/svg.json";
 
+// Logo
+import logo from "../../constants/logo.json";
+
 /**
  * @class Pdf
  * @classdesc Classe para gerar PDF
@@ -63,13 +66,14 @@ export default class Pdf {
       data.map(async (pagador, i, arr) => {
         if (!pagador.pix) throw new Error("O código Pix não foi gerado");
         const qr = await QR.gerar_qrcode(pagador.pix);
-        qr.classList.add("qrcode", "img-fluid", "rounded-start");
-        qr.alt = pagador.referencia;
 
         return `
           <div class="card ${i === 0 ? "" : "mt-4"}">
             <div class="d-flex justify-content-between">
-              ${qr.outerHTML}
+              <img class="logo img-fluid" src="${logo.base64}"/>
+            </div>
+            <div class="d-flex justify-content-between">
+             <img class="qrcode img-fluid rounded-start" src="${qr}" alt="${pagador.referencia}" />
             </div>
             <div class="card-body overflow-hidden">
               <ul class="list-group text-start h-100 text-center">
@@ -114,9 +118,6 @@ export default class Pdf {
             ul {
               margin-top: 0;
               margin-bottom: 1rem;
-            }
-
-            ul {
               padding-left: 2rem;
             }
 
@@ -139,20 +140,9 @@ export default class Pdf {
 
             h4 {
               font-size: calc(1.275rem + 0.3vw);
-            }
-
-            b {
-              font-weight: bolder;
-            }
-
-            h4 {
               margin-top: 0;
               margin-bottom: 0.5rem;
-              font-weight: 500;
               line-height: 1.2;
-            }
-
-            h4 {
               display: block;
               margin-block-start: 1.33em;
               margin-block-end: 1.33em;
@@ -160,6 +150,10 @@ export default class Pdf {
               margin-inline-end: 0px;
               font-weight: bold;
               unicode-bidi: isolate;
+            }
+
+            b {
+              font-weight: bolder;
             }
 
             li {
@@ -207,6 +201,14 @@ export default class Pdf {
               min-height: 150px;
               height: 150px;
               border-radius: 10px;
+            }
+
+            .logo {
+              margin: 0 auto;
+              display: block;
+              width: 100px;
+              height: 100px;
+              border: none;
             }
 
             .text-start {

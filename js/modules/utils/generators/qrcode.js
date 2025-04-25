@@ -1,26 +1,17 @@
 // @ts-check
 
-import QRCodeWithLogo from "qrcode-with-logos";
+import QR from "qrcode";
 
 /** @classdesc Classe para gerar QRCode */
 export default class QRCode {
   /**
    * Gera um QRCode a partir de um texto
    * @param {String} pix
-   * @returns {Promise<HTMLImageElement>}
+   * @returns {Promise<String>}
    */
   static async gerar_qrcode(pix) {
     try {
-      const qrCode = new QRCodeWithLogo({
-        content: pix,
-        width: 300,
-        logo: {
-          src: "public/logo.png",
-          borderWidth: 0,
-          borderRadius: 50,
-        },
-      });
-      return await qrCode.getImage();
+      return await QR.toDataURL(pix);
     } catch (err) {
       throw new Error("Falha ao gerar o QRCode");
     }

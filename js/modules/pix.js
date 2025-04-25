@@ -338,9 +338,9 @@ export default class Pix {
 
       const qr_div = document.createElement("div");
       qr_div.classList.add("d-flex", "justify-content-between");
-      const img = await QR.gerar_qrcode(pagador.pix);
-      img.classList.add("qrcode", "img-fluid", "rounded-start");
-      qr_div.appendChild(img);
+      qr_div.innerHTML = `<img class="qrcode img-fluid rounded-start" src="${await QR.gerar_qrcode(pagador.pix)}" alt="${
+        pagador.referencia
+      }" />`;
 
       const card_body = document.createElement("div");
       card_body.classList.add("card-body", "overflow-hidden");
