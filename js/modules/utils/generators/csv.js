@@ -63,7 +63,7 @@ export default class CSV {
     const pagadores = [];
 
     lines.forEach((line) => {
-      const [referencia, valor] = line.split(";").map((item) => item.trim());
+      const [referencia, valor] = line.split(",").map((item) => item.trim());
       if (referencia && valor) {
         pagadores.push({
           referencia: referencia.substring(0, 20),
