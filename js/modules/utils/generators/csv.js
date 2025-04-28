@@ -35,11 +35,11 @@ export default class CSV {
    */
   static converter_para_csv = (data) => {
     let csv = "\uFEFF";
-    csv += "REFERÊNCIA;VALOR;CÓDIGO\r\n";
+    csv += "JOGADOR;VALOR;CÓDIGO\r\n";
 
     data.forEach((pagador) => {
       const referencia = pagador.referencia || "";
-      const valor = `R$ ${pagador.valor.replace(".", ",")}` || "";
+      const valor = `R$ ${pagador.valor.replace(".", ",") ?? ""}`;
       const codigo = pagador.pix || "";
       csv += `"${referencia}";"${valor}";"${codigo}"\r\n`;
     });

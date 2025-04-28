@@ -78,7 +78,7 @@ export default class Pdf {
             <div class="card-body overflow-hidden">
               <ul class="list-group text-start h-100 text-center">
                 <li class="card-text list-item text-truncate"><b>Chave Pix:</b> ${chave}</li>
-                <li class="card-text list-item text-truncate"><b>Referência:</b> ${pagador.referencia}</li>
+                <li class="card-text list-item text-truncate"><b>Jogador:</b> ${pagador.referencia}</li>
                 <li class="card-text text-truncate"><b>Valor:</b> R$ ${pagador.valor.replace(".", ",")}</li>
                 </ul>
             </div>

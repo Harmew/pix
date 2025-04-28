@@ -147,7 +147,7 @@ export default class Pix {
     const referencia_div = document.createElement("div");
     referencia_div.classList.add("col-sm-7");
     referencia_div.innerHTML = `
-    <label for="pix-referencia-pagador-${this.qtd_pagadores}" class="form-label w-100 text-start">Referência do pagador <span class="text-muted">(até 20 letras)</span></label>
+    <label for="pix-referencia-pagador-${this.qtd_pagadores}" class="form-label w-100 text-start">Nome do Jogador <span class="text-muted">(até 20 letras)</span></label>
     <input type="text" class="form-control" id="pix-referencia-pagador-${this.qtd_pagadores}" name="pix-referencia-pagador-${this.qtd_pagadores}" maxlength="20"/>
   `;
 
@@ -200,7 +200,7 @@ export default class Pix {
     const referencia_div = document.createElement("div");
     referencia_div.classList.add("col-sm-7");
     referencia_div.innerHTML = `
-    <label for="pix-referencia-pagador-${this.qtd_pagadores}" class="form-label w-100 text-start">Referência do pagador <span class="text-muted">(até 20 letras)</span></label>
+    <label for="pix-referencia-pagador-${this.qtd_pagadores}" class="form-label w-100 text-start">Nome do Jogador <span class="text-muted">(até 20 letras)</span></label>
     <input type="text" class="form-control" id="pix-referencia-pagador-${this.qtd_pagadores}" name="pix-referencia-pagador-${this.qtd_pagadores}" maxlength="20" value="${pagador.referencia}" />
   `;
 
@@ -350,7 +350,7 @@ export default class Pix {
 
       const li_referencia = document.createElement("li");
       li_referencia.classList.add("card-text", "list-item", "text-truncate");
-      li_referencia.innerHTML = `<b>Referência:</b> ${pagador.referencia}`;
+      li_referencia.innerHTML = `<b>Jogador:</b> ${pagador.referencia}`;
 
       const li_valor = document.createElement("li");
       li_valor.classList.add("card-text", "text-truncate");
@@ -405,7 +405,7 @@ export default class Pix {
       const /** @type {HTMLInputElement | Null} */ referencia_input = pagador.querySelector(`input[id^='pix-referencia-${id}']`);
       const /** @type {HTMLInputElement | Null} */ valor_input = pagador.querySelector(`input[id^='pix-valor-${id}']`);
 
-      if (!referencia_input || !valor_input) throw new Error("Inputs de referência e valor não encontrados");
+      if (!referencia_input || !valor_input) throw new Error("Inputs de referência (jogador) e valor não encontrados");
 
       const referencia = N.normalizar_referencia(referencia_input.value);
       const valor = N.normalizar_valor(Number(valor_input.value).toFixed(2));
