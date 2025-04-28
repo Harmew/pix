@@ -6,9 +6,6 @@
 
 import QR from "./qrcode";
 
-// Constants
-import SVGs from "../../constants/svg.json";
-
 // Logo
 import logo from "../../constants/logo.json";
 
@@ -42,13 +39,9 @@ export default class Pdf {
       doc.open();
       doc.writeln(html);
       doc.close();
-
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
-
       setTimeout(() => {
         document.body.removeChild(iframe);
-      }, 1000);
+      }, 1500);
     } catch (error) {
       console.error(error);
     }
@@ -94,6 +87,14 @@ export default class Pdf {
           <meta charset="UTF-8" />
           <title>Recibo de ${nome}</title>
           <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <script>
+            window.addEventListener('DOMContentLoaded', function() {
+              setTimeout(function() {
+                window.focus();
+                window.print();
+              }, 500);
+            });
+          </script>
           <style>
             *,
             ::after,
@@ -208,7 +209,6 @@ export default class Pdf {
               display: block;
               width: 100px;
               height: 100px;
-              border: none;
             }
 
             .text-start {
@@ -342,10 +342,8 @@ export default class Pdf {
             }
           </style>
         </head>
-        <body class="container pt-2">
-          <div class="text-center">${SVGs.PIX}</div>
+        <body class="container">
           <div class="text-start">
-            <hr />
             <h4 class="mb-3">Informacões do Recebedor</h4>
             <div class="card">
               <ul class="list-group list-group-flush">
