@@ -98,7 +98,7 @@ export default class Chave {
     let chave = this.chave_input.value.toLocaleLowerCase();
 
     if (this.tipo == "CELULAR" || this.tipo == "CNPJ" || this.tipo == "CPF") {
-      chave = chave.replace(/\D/g, "");
+      chave = chave.replaceAll(/\D/g, "");
     }
 
     if (this.tipo == "CELULAR") {
@@ -132,15 +132,15 @@ export default class Chave {
     }
 
     const mask = config.mask;
-    const numeros = valor.replace(/\D/g, ""); // Remove tudo que não for número
+    const numeros = valor.replaceAll(/\D/g, ""); // Remove tudo que não for número
 
-    if (numeros.length < mask.replace(/\D/g, "").length) {
+    if (numeros.length < mask.replaceAll(/\D/g, "").length) {
       this.chave_input.value = numeros; // Mantém apenas os números enquanto não completa o tamanho da máscara
       return;
     }
 
     let i = 0;
-    this.chave_input.value = mask.replace(/0/g, () => numeros[i++] || "");
+    this.chave_input.value = mask.replaceAll(/0/g, () => numeros[i++] || "");
   }
 
   /** Adiciona o evento de validação na chave PIX */

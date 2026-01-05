@@ -59,10 +59,10 @@ export default class CSV {
 
     const lines = csv
       .toString()
-      .replaceAll(/"/g, "")
+      .replaceAll('"', "")
       .split("\n")
       .map((line) => line.trim())
-      .filter((line) => line);
+      .filter(Boolean);
 
     const pagadores = [];
 

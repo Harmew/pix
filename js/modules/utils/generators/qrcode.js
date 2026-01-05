@@ -12,7 +12,7 @@ export default class QRCode {
   static async gerar_qrcode(pix) {
     try {
       return await QR.toDataURL(pix);
-    } catch (err) {
+    } catch {
       throw new Error("Falha ao gerar o QRCode");
     }
   }

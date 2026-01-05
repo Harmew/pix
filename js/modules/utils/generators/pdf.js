@@ -38,9 +38,7 @@ export default class Pdf {
       doc.open();
       doc.writeln(html);
       doc.close();
-      setTimeout(() => {
-        document.body.removeChild(iframe);
-      }, 1500);
+      setTimeout(() => iframe.remove(), 1500);
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +66,7 @@ export default class Pdf {
                   <img class="qrcode img-fluid rounded-start" src="${qr}" alt="${pagador.referencia}" />
                 </div>
 
-                <ul class="list-group text-start h-100 text-center">
+                <ul class="list-group text-start text-center">
                   <li class="card-text text-truncate"><b>Chave Pix:</b> ${chave}</li>
                   <li class="card-text text-truncate"><b>Jogador:</b> ${pagador.referencia}</li>
                   <li class="card-text text-truncate"><b>Valor:</b> R$ ${pagador.valor.replace(".", ",")}</li>
@@ -107,7 +105,7 @@ export default class Pdf {
               font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
               font-size: 1rem;
               font-weight: 400;
-              line-height: 1.5;
+              line-height: 1.2;
               color: #000000;
               background-color: #ffffff;
               -webkit-text-size-adjust: 100%;
@@ -189,10 +187,6 @@ export default class Pdf {
               border-top-left-radius: 0.25rem !important;
             }
 
-            .h-100 {
-              height: 100% !important;
-            }
-
             .text-truncate {
               overflow: hidden;
               text-overflow: ellipsis;
@@ -207,25 +201,13 @@ export default class Pdf {
               }
 
               body {
-                width: 40mm;
-                min-height: 100vh;
+                width: 100%;
                 font-size: 10px;
-                margin: 0;
+                margin: 0 auto;
                 padding: 0;
-                line-height: 1.2;
-
-                display: flex;
-                flex-direction: column;
-                align-items: center;
               }
 
               .pagador {
-                min-height: 100vh;
-
-                display: flex;
-                justify-content: center;
-                align-items: center;
-
                 page-break-after: always;
                 break-after: page;
               }
@@ -233,12 +215,6 @@ export default class Pdf {
               .pagador:last-child {
                 page-break-after: auto;
                 break-after: auto;
-              }
-
-              .pagador-content {
-                width: fit-content;
-                max-width: 100%;
-                text-align: center;
               }
 
               ul {
