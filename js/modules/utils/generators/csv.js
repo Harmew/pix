@@ -53,9 +53,13 @@ export default class CSV {
    * @returns {PagadorCSV[]} - Lista de pagadores
    */
   static parse_csv_to_pagadores = (csv) => {
+    if (typeof csv !== "string") {
+      csv = new TextDecoder("utf-8").decode(new Uint8Array(csv));
+    }
+
     const lines = csv
       .toString()
-      .replace(/"/g, "")
+      .replaceAll(/"/g, "")
       .split("\n")
       .map((line) => line.trim())
       .filter((line) => line);

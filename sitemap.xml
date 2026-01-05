@@ -1,8 +1,8 @@
 <sitemap xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>..</loc>
+        <loc>https://harmew.github.io/pix/</loc>
         <lastmod>2025-03-20</lastmod>
-        <changefreq>monthly</changefreq>
+        <changefreq>annual</changefreq>
         <priority>1.00</priority>
     </url>
 </sitemap>

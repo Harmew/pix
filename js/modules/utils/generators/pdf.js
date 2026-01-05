@@ -16,15 +16,14 @@ import logo from "../../constants/logo.json";
 export default class Pdf {
   /**
    * Gera um arquivo CSV
-   * @param {String} tipo Tipo do recibo
    * @param {String} chave Chave do recibo
    * @param {String} nome Nome do recibo
    * @param {Pagador[]} data Dados a serem convertidos em CSV
    * @returns {Promise<void>}
    */
-  static gerar_pdf = async (tipo, chave, nome, data) => {
+  static gerar_pdf = async (chave, nome, data) => {
     try {
-      const html = await this.gerar_html(tipo, chave, nome, data);
+      const html = await this.gerar_html(chave, nome, data);
 
       const iframe = document.createElement("iframe");
       iframe.style.position = "absolute";
@@ -47,36 +46,36 @@ export default class Pdf {
     }
   };
   /**
-   * Gera um arquivo CSV
-   * @param {String} tipo Tipo do recibo
    * @param {String} chave Chave do recibo
    * @param {String} nome Nome do recibo
    * @param {Pagador[]} data Dados a serem convertidos em CSV
    * @returns {Promise<String>} HTML gerado
    */
-  static async gerar_html(tipo, chave, nome, data) {
+  static async gerar_html(chave, nome, data) {
     const qrCodes = await Promise.all(
-      data.map(async (pagador, i, arr) => {
+      data.map(async (pagador) => {
         if (!pagador.pix) throw new Error("O código Pix não foi gerado");
         const qr = await QR.gerar_qrcode(pagador.pix);
 
         return `
-          <div class="card ${i === 0 ? "" : "mt-4"}">
-            <div class="d-flex justify-content-between">
-              <img class="logo img-fluid" src="${logo.base64}"/>
-            </div>
-            <div class="d-flex justify-content-between">
-             <img class="qrcode img-fluid rounded-start" src="${qr}" alt="${pagador.referencia}" />
-            </div>
-            <div class="card-body overflow-hidden">
-              <ul class="list-group text-start h-100 text-center">
-                <li class="card-text list-item text-truncate"><b>Chave Pix:</b> ${chave}</li>
-                <li class="card-text list-item text-truncate"><b>Jogador:</b> ${pagador.referencia}</li>
-                <li class="card-text text-truncate"><b>Valor:</b> R$ ${pagador.valor.replace(".", ",")}</li>
+            <div class="pagador">
+              <div class="pagador-content">
+                <div class="d-flex justify-content-between">
+                  <img class="logo img-fluid" src="${logo.base64}" />
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <img class="qrcode img-fluid rounded-start" src="${qr}" alt="${pagador.referencia}" />
+                </div>
+
+                <ul class="list-group text-start h-100 text-center">
+                  <li class="card-text text-truncate"><b>Chave Pix:</b> ${chave}</li>
+                  <li class="card-text text-truncate"><b>Jogador:</b> ${pagador.referencia}</li>
+                  <li class="card-text text-truncate"><b>Valor:</b> R$ ${pagador.valor.replace(".", ",")}</li>
                 </ul>
+              </div>
             </div>
-          </div>
-          `;
+      `;
       }),
     );
 
@@ -96,6 +95,7 @@ export default class Pdf {
             });
           </script>
           <style>
+
             *,
             ::after,
             ::before {
@@ -104,13 +104,12 @@ export default class Pdf {
 
             body {
               margin: 0;
-              font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
-                sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+              font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
               font-size: 1rem;
               font-weight: 400;
               line-height: 1.5;
-              color: #212529;
-              background-color: #fff;
+              color: #000000;
+              background-color: #ffffff;
               -webkit-text-size-adjust: 100%;
               -webkit-tap-highlight-color: transparent;
               display: block;
@@ -122,35 +121,9 @@ export default class Pdf {
               padding-left: 2rem;
             }
 
-            hr:not([size]) {
-              height: 1px;
-            }
-
-            hr {
-              margin: 1rem 0;
-              color: inherit;
-              background-color: currentColor;
-              border: 0;
-              opacity: 0.25;
-            }
-
             img,
             svg {
               vertical-align: middle;
-            }
-
-            h4 {
-              font-size: calc(1.275rem + 0.3vw);
-              margin-top: 0;
-              margin-bottom: 0.5rem;
-              line-height: 1.2;
-              display: block;
-              margin-block-start: 1.33em;
-              margin-block-end: 1.33em;
-              margin-inline-start: 0px;
-              margin-inline-end: 0px;
-              font-weight: bold;
-              unicode-bidi: isolate;
             }
 
             b {
@@ -161,36 +134,6 @@ export default class Pdf {
               display: list-item;
               text-align: -webkit-match-parent;
               unicode-bidi: isolate;
-            }
-
-            .container {
-              width: 100%;
-              padding-right: 0.75rem;
-              padding-left: 0.75rem;
-              margin-right: auto;
-              margin-left: auto;
-            }
-
-            @media (min-width: 576px) {
-              .container {
-                max-width: 540px;
-              }
-            }
-
-            @media (min-width: 768px) {
-              .container {
-                max-width: 720px;
-              }
-            }
-
-            @media (min-width: 992px) {
-              .container {
-                max-width: 960px;
-              }
-            }
-
-            .pt-2 {
-              padding-top: 0.5rem !important;
             }
 
             .qrcode {
@@ -219,53 +162,8 @@ export default class Pdf {
               text-align: center !important;
             }
 
-            .mb-3 {
-              margin-bottom: 1rem !important;
-            }
-
-            .mt-4 {
-              margin-top: 1.5rem !important;
-            }
-
             .d-flex {
               display: flex !important;
-            }
-
-            .card {
-              position: relative;
-              display: flex;
-              flex-direction: column;
-              min-width: 0;
-              word-wrap: break-word;
-              background-color: #fff;
-              background-clip: border-box;
-              border: 1px solid rgba(0, 0, 0, 0.125);
-              border-radius: 0.25rem;
-              padding: 1rem 1rem;
-            }
-
-            .card > .list-group:last-child {
-              border-bottom-width: 0;
-              border-bottom-right-radius: calc(0.25rem - 1px);
-              border-bottom-left-radius: calc(0.25rem - 1px);
-            }
-            .card > .list-group:first-child {
-              border-top-width: 0;
-              border-top-left-radius: calc(0.25rem - 1px);
-              border-top-right-radius: calc(0.25rem - 1px);
-            }
-
-            .list-group-flush {
-              border-radius: 0;
-            }
-
-            .list-group-item:first-child {
-              border-top-left-radius: inherit;
-              border-top-right-radius: inherit;
-            }
-
-            .list-group-flush > .list-group-item {
-              border-width: 0 0 1px;
             }
 
             .list-group {
@@ -281,10 +179,6 @@ export default class Pdf {
               justify-content: space-between !important;
             }
 
-            .flex-row {
-              flex-direction: row !important;
-            }
-
             .img-fluid {
               max-width: 100%;
               height: auto;
@@ -293,15 +187,6 @@ export default class Pdf {
             .rounded-start {
               border-bottom-left-radius: 0.25rem !important;
               border-top-left-radius: 0.25rem !important;
-            }
-
-            .overflow-hidden {
-              overflow: hidden !important;
-            }
-
-            .card-body {
-              flex: 1 1 auto;
-              padding: 0.5rem 0.5rem;
             }
 
             .h-100 {
@@ -314,48 +199,57 @@ export default class Pdf {
               white-space: nowrap;
             }
 
-            .my-3 {
-              margin-top: 1rem !important;
-              margin-bottom: 1rem !important;
-            }
-
             @media print {
+
               @page {
                 size: 40mm auto;
                 margin: 0;
               }
+
               body {
                 width: 40mm;
+                min-height: 100vh;
                 font-size: 10px;
+                margin: 0;
+                padding: 0;
                 line-height: 1.2;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
               }
-              .container {
-                padding: 2px;
+
+              .pagador {
+                min-height: 100vh;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                page-break-after: always;
+                break-after: page;
               }
-              h4 {
-                font-size: 12px;
+
+              .pagador:last-child {
+                page-break-after: auto;
+                break-after: auto;
+              }
+
+              .pagador-content {
+                width: fit-content;
+                max-width: 100%;
                 text-align: center;
               }
+
               ul {
                 padding-left: 5px;
               }
+
             }
           </style>
         </head>
-        <body class="container">
-          <div class="text-start">
-            <h4 class="mb-3">Informacões do Recebedor</h4>
-            <div class="card">
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item text-start"><b>Chave PIX:</b> ${chave}</li>
-                <li class="list-group-item text-start"><b>Nome:</b> ${nome}</li>
-                <li class="list-group-item text-start"><b>Tipo de Chave:</b> ${tipo}</li>
-              </ul>
-            </div>
-          </div>
-
-          <h4 class="my-3">QR Codes</h4>
-            ${qrCodes.join("")}
+        <body>
+          ${qrCodes.join("")}
         </body>
       </html>
   `;

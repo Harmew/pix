@@ -99,7 +99,7 @@ export default class Pix {
       pagador.pix = M.criar_codigo_pix({
         chave: this.chave.get_chave(),
         nome: nome_input.value,
-        valor: parseFloat(pagador.valor).toFixed(2),
+        valor: Number.parseFloat(pagador.valor).toFixed(2),
         referencia: pagador.referencia,
       });
     });
@@ -322,7 +322,7 @@ export default class Pix {
     btn_print_csv.classList.add("btn", "btn-secondary", "btn-sm");
     btn_print_csv.type = "button";
     btn_print_csv.innerHTML = `${SVGs.PRINTER}`;
-    btn_print_csv.addEventListener("click", async () => await PDF.gerar_pdf(tipo, chave, nome, pagadores));
+    btn_print_csv.addEventListener("click", async () => await PDF.gerar_pdf(chave, nome, pagadores));
 
     this.resultado_div.appendChild(pagadores_div);
     pagadores_div.appendChild(pagadores_titulo);

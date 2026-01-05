@@ -104,10 +104,10 @@ export default class Validador {
    * @returns {Boolean} true se o celular é válido, false se não é válido
    */
   static validar_celular = (celular) => {
-    celular = celular.replace(/\D/g, "");
+    celular = celular.replaceAll(/\D/g, "");
     if (!(celular.length >= 10 && celular.length <= 11)) return false;
 
-    if (celular.length == 11 && parseInt(celular.substring(2, 3)) != 9) return false;
+    if (celular.length == 11 && Number.parseInt(celular.substring(2, 3)) != 9) return false;
 
     for (let n = 0; n < 10; n++) {
       if (celular == new Array(11).join(n.toString()) || celular == new Array(12).join(n.toString())) return false;
@@ -119,10 +119,10 @@ export default class Validador {
       95, 96, 97, 98, 99,
     ];
 
-    if (codigosDDD.indexOf(parseInt(celular.substring(0, 2))) == -1) return false;
+    if (!codigosDDD.includes(Number.parseInt(celular.substring(0, 2)))) return false;
 
     if (new Date().getFullYear() < 2017) return true;
-    if (celular.length == 10 && [2, 3, 4, 5, 7].indexOf(parseInt(celular.substring(2, 3))) == -1) return false;
+    if (celular.length == 10 && ![2, 3, 4, 5, 7].includes(Number.parseInt(celular.substring(2, 3)))) return false;
 
     return true;
   };
@@ -134,13 +134,11 @@ export default class Validador {
    */
   static validar_email = (email) => {
     if (typeof email !== "string") return false;
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      )
-      ? true
-      : false;
+
+    const regex =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}(\.[0-9]{1,3}){3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+    return regex.test(email.toLowerCase());
   };
 
   /**
